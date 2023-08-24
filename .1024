@@ -1,4 +1,4 @@
-run_command: "go run main.go"
+run_command: ./simple-demo
 debug:
   support: true
   launch:
@@ -7,3 +7,4 @@ debug:
     program: .
     console: integratedTerminal
     cwd: .
+compile_command: go build

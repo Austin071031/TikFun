@@ -1,0 +1,50 @@
+
+lzl5
+lzl5
+lzl6
+lzl7
+lzl8
+lzl8
+lzl8
+lzl9
+lzl10
+filename: 1-111.mp4
+saveFile: public/videos/1-111.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/1-111.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/1-111.png
+filename: 1-222.mp4
+saveFile: public/videos/1-222.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/1-222.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/1-222.png
+filename: 1-111.mp4
+saveFile: public/videos/1-111.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/1-111.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/1-111.png
+filename: 2-222.mp4
+saveFile: public/videos/2-222.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/2-222.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/2-222.png
+filename: 1-111.mp4
+saveFile: public/videos/1-111.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/1-111.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/1-111.png
+filename: 1-111.mp4
+saveFile: public/videos/1-111.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/1-111.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/1-111.png
+filename: 1-111.mp4
+saveFile: public/videos/1-111.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/1-111.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/1-111.png
+filename: 2-222.mp4
+saveFile: public/videos/2-222.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/2-222.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/2-222.png
+filename: 1-111.mp4
+saveFile: public/videos/1-111.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/1-111.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/1-111.png
+filename: 2-222.mp4
+saveFile: public/videos/2-222.mp4
+playurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/video/2-222.mp4
+coverurl: https://3ec654765ff181cf22e7d61647d21171-app.1024paas.com/static/cover/2-222.png

@@ -1,0 +1,4 @@
+
+saveFile: public/videos/1-111.mp4
+playurl: https://af5b7e0a45bcc1c9fdaa494b96559483-app.1024paas.com/static/video/1-111.mp4
+coverurl: https://af5b7e0a45bcc1c9fdaa494b96559483-app.1024paas.com/static/cover/1-111.png
