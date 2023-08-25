@@ -27,13 +27,13 @@ func MessageAction(c *gin.Context) {
 	toUserId := c.Query("to_user_id")
 	content := c.Query("content")
 
-	decoded_token, err := utils.VerifyToken(token)
+	username, err := utils.VerifyToken(token)
   if err != nil{
     c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "Verify jwt error"})
     return 
   }
-  users, _, err := repository.NewUserDaoInstance().QueryUserByName(decoded_token)
-	if  err == gorm.ErrRecordNotFound{
+  users, err := repository.NewUserDaoInstance().QueryUserByName(username)
+	if  len(users) == 0{
 		c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "User doesn't exist"})
 		return
 	}

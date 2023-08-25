@@ -121,4 +121,25 @@ func(*VideoDao) UpdateUserFavcount(username string)(string, int64, error){
 }
 
 
+func (*VideoDao) QueryAuthorNameByVideoId(videoId int) ([]string, error) {
+	var authorname []string
+	result := db.Where("id = ?", videoId).Select("name").Find(&authorname)
+	
+	if result.Error != nil{
+    return authorname,result.Error
+  }
+	return authorname,nil
+}
+
+func (*VideoDao) QueryFavoriteVideoListbyVideoIds(videoIds []int)([]Video, error){
+  var videos []Video
+  result := db.Where("id IN ?", videoIds).Find(&videos)
+  if result.Error != nil{
+    return videos, result.Error
+  }
+  return videos, nil
+}
+
+
+
 

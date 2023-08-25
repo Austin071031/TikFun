@@ -19,8 +19,8 @@ func CommentAction(c *gin.Context) {
 		c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "Verify jwt error"})
 		return
 	}
-	user, length, err := repository.NewUserDaoInstance().QueryUserByName(decoded_token)
-	if length == 0{
+	users, err := repository.NewUserDaoInstance().QueryUserByName(decoded_token)
+	if len(users) == 0{
 		c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "User doesn't exist"})
 		return
 	}
@@ -29,7 +29,7 @@ func CommentAction(c *gin.Context) {
 		//插入
 		content_text := c.Query("comment_text")
 		video_id_text := c.Query("video_id")
-		commentActionResponse,err:=service.CreateComment(content_text,video_id_text,&user[0])
+		commentActionResponse,err:=service.CreateComment(content_text,video_id_text,&users[0])
 		if err!=nil{
 			//新建评论发生错误，弹出提示窗口
 			c.JSON(http.StatusOK,commentActionResponse.Response)
@@ -41,7 +41,7 @@ func CommentAction(c *gin.Context) {
 		//删除
 		video_id_text := c.Query("video_id")
 		comment_id_text := c.Query("comment_id")
-		commentActionResponse,err:=service.DeleteComment(comment_id_text,video_id_text,&user[0])
+		commentActionResponse,err:=service.DeleteComment(comment_id_text,video_id_text,&users[0])
 		if err!=nil{
       //删除评论发生错误，弹出提示窗口
 			c.JSON(http.StatusOK, commentActionResponse.Response)

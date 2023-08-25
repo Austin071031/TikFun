@@ -7,7 +7,6 @@ CREATE TABLE `users`
 (
     `id`                bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
     `name`              varchar(128)        NOT NULL DEFAULT '' COMMENT '用户昵称',
-    `password`          varchar(128)        NOT NULL DEFAULT '' COMMENT '哈希加密密码，验证用户',
     `signature`         varchar(128)        NOT NULL DEFAULT '' COMMENT '个人简介',
     `follow_count`       int(10)             NOT NULL DEFAULT 1 COMMENT '关注数量',
     `follower_count`     int(10)             NOT NULL DEFAULT 0 COMMENT '粉丝数量',
@@ -26,6 +25,7 @@ DROP TABLE IF EXISTS `loginuserdata`;
 CREATE TABLE `loginuserdata`
 (
     `name`          varchar(128)        NOT NULL COMMENT '主键用户昵称',
+    `password`      varchar(128)        NOT NULL DEFAULT '' COMMENT '哈希加密密码，验证用户',
     `token`         varchar(512)        NOT NULL DEFAULT '' COMMENT 'Token',
     PRIMARY KEY (`name`)
 ) ENGINE = InnoDB

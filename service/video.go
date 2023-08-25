@@ -46,8 +46,8 @@ func Publish(token string, title string, data *multipart.FileHeader) (VideoListR
 		}
 		return videoListResponse, err
 	}
-	users, length, err := repository.NewUserDaoInstance().QueryUserByName(username)
-	if length == 0 {
+	users, err := repository.NewUserDaoInstance().QueryUserByName(username)
+	if len(users) == 0 {
 		videoListResponse := VideoListResponse{
 			Response: repository.Response{
 				StatusCode: 1,
@@ -155,15 +155,15 @@ func PublishList(token string) (VideoListResponse, error) {
 		return videoListResponse, err
 	}
 
-	_, _, err = repository.NewUserDaoInstance().QueryUserByName(username)
-	if err != nil {
-		videoListResponse := VideoListResponse{
-			Response: repository.Response{
-				StatusCode: 1,
-				StatusMsg:  "query user err:" + err.Error()},
-		}
-		return videoListResponse, err
-	}
+	// _, err = repository.NewUserDaoInstance().QueryUserByName(username)
+	// if err != nil {
+	// 	videoListResponse := VideoListResponse{
+	// 		Response: repository.Response{
+	// 			StatusCode: 1,
+	// 			StatusMsg:  "query user err:" + err.Error()},
+	// 	}
+	// 	return videoListResponse, err
+	// }
 	err = repository.NewVideoDaoInstance().UpdateVideoUrl(serverDomain)
 	if err != nil {
 		videoListResponse := VideoListResponse{
@@ -182,6 +182,17 @@ func PublishList(token string) (VideoListResponse, error) {
 		}
 		return videoListResponse, err
 	}
+
+  err = repository.NewUserDaoInstance().UpdateUserWorkCount(username, len((*videos)))
+  if err != nil {
+		videoListResponse := VideoListResponse{
+			Response: repository.Response{
+				StatusCode: 1,
+				StatusMsg:  "update user work count err:" + err.Error()},
+		}
+		return videoListResponse, err
+	}
+  
 	VideoList, err := ConvertVideoDBToJSON(videos)
 	if err != nil {
 		videoListResponse := VideoListResponse{
@@ -197,7 +208,6 @@ func PublishList(token string) (VideoListResponse, error) {
 		},
 
 		VideoList: VideoList,
-		Token:     token,
 	}
 	return videoListResponse, nil
 }

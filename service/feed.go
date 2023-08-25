@@ -2,8 +2,11 @@ package service
 
 import (
 	"github.com/RaymondCode/simple-demo/repository"
-  "github.com/RaymondCode/simple-demo/utils"
-  // "encoding/json"
+	"github.com/RaymondCode/simple-demo/utils"
+	//"github.com/u2takey/go-utils/json"
+
+	// "encoding/json"
+	// "strconv"
 	"time"
 )
 
@@ -35,10 +38,9 @@ func Feed(username string) (FeedResponse, error) {
 		return feedResponse, err
 	}
 
-  
     //已登陆用户更新视频的点赞状态
   if(username != ""){
-    likedVideosId, err := repository.NewFavouriteInstance().FindUserLikedVideo(username)
+    likedVideosId, err := repository.NewFavouriteInstance().QueryFavoriteVideoIdbyUsername(username)
     if err != nil{
       _ = utils.WriteLog("feed_querylike.txt", err.Error())
       feedResponse := FeedResponse{
@@ -50,18 +52,19 @@ func Feed(username string) (FeedResponse, error) {
     }
     
     likedVideosId_map := utils.Tomap(likedVideosId)
-  
-    for _, video := range *videos{
-      if _, isliked := likedVideosId_map[int(video.Id)]; isliked == true{ 
-        video.IsFavorite = true
+    
+    for index, video := range *videos{
+      _, isliked := likedVideosId_map[int(video.Id)]
+      if isliked == true{ 
+        (*videos)[index].IsFavorite = true
       }
     }
   }
-
-	VideoList, err = ConvertVideoDBToJSON(videos)
-
   
-
+  // jsondata, _ := json.Marshal(videos)
+  // _ = utils.WriteLog("feed.txt", string(jsondata))
+	VideoList, err = ConvertVideoDBToJSON(videos)
+  
 	if err != nil {
 		feedResponse := FeedResponse{
 			Response: repository.Response{StatusCode: 1,

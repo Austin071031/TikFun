@@ -8,6 +8,7 @@ type Response struct {
 
 type LoginUserData struct {
 	Username string `gorm:"column:name"`
+  Password string `gorm:"column:password"`
 	Token    string `gorm:"column:token"`
 }
 
@@ -24,7 +25,6 @@ type Like struct {
 type User struct {
 	Id              int64  `gorm:"column:id" json:"id"`
 	Name            string `gorm:"column:name" json:"name"`
-  Password        string `gorm:"column:password"`
   Signature       string `gorm:"column:signature" json:"signature"`  
 	FollowCount     int64  `gorm:"column:follow_count" json:"follow_count"`
 	FollowerCount   int64  `gorm:"column:follower_count" json:"follower_count"`

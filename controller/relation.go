@@ -5,7 +5,6 @@ import (
   "github.com/RaymondCode/simple-demo/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
-  "gorm.io/gorm"
 )
 
 type UserListResponse struct {
@@ -17,13 +16,13 @@ type UserListResponse struct {
 func RelationAction(c *gin.Context) {
 	token := c.Query("token")
 
-	decoded_token, err := utils.VerifyToken(token)
+	username, err := utils.VerifyToken(token)
   if err != nil{
     c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "Verify jwt error"})
     return 
   }
-  _, _, err = repository.NewUserDaoInstance().QueryUserByName(decoded_token)
-	if  err == gorm.ErrRecordNotFound{
+  users, err := repository.NewUserDaoInstance().QueryUserByName(username)
+	if  len(users) == 0{
 		c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "User doesn't exist"})
 		return
 	}

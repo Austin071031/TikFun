@@ -69,22 +69,6 @@ func (*FavouriteDao) CheckLikedStatus(username string, videoId int) (bool, []Lik
 	return result.RowsAffected>0, likevideo  //通过查看result.RowsAffected的值来判断是否有记录受影响，如果大于0，则表示存在喜欢记录，返回true；
 }
 
-
-
-func (*FavouriteDao) GetFavoriteList(username string) ([] Video ,error) { //获取用户喜欢列表的数据访问层
-  var videoList []Video
-  err := db.Raw("SELECT v.id as Id, v.name as Name, v.playurl as PlayUrl, v.coverurl as CoverUrl, v.favoritecount as FavoriteCount, v.commentcount as CommentCount,v.isfavorite as IsFavorite,v.title as Title,v.uploadtime as UploadTime FROM likes l JOIN videos v ON l.videoId = v.id WHERE l.liked = ? ORDER BY l.create_time DESC",
-		1).Scan(&videoList)
-  
-	// err := db.Model(&Like{}).Where("Username = ? AND liked = ?", username, 1).Select("videoId").Find(&videoIds).Error
-	//通过Where方法指定查询条件，查询用户喜欢的视频的videoId字段，通过Select方法指定查询结果只返回videoId字段，并使用Find(&videoIds)方法执行查询操作，将结果保存到videoIds变量中。
-	if err != nil {
-		// util.Logger.Error("get favorite list err: " + err.Error())
-		return nil, err.Error
-	} //如果查询过程中出现错误，则记录错误信息并返回错误；否则，返回videoIds表示查询到的视频ID列表。
-	return videoList, nil
-}
-
 func (*FavouriteDao) UpdateFavouriteCountPlus(videoId int) error{
   result := db.Model(&Video{}).Where("id = ?", videoId).UpdateColumn("favoritecount", gorm.Expr("favoritecount  + ?", 1))
 
@@ -114,7 +98,7 @@ func(*FavouriteDao) UpdateUserLikedVideo(username string)(int64, error){
 }
 
 
-func(*FavouriteDao) FindUserLikedVideo(username string)([]int, error){
+func(*FavouriteDao) QueryFavoriteVideoIdbyUsername(username string)([]int, error){
   var LikeVideoId []int
   result := db.Model(Like{}).Where("name=? and liked = ?",username,1).Select("videoId").Find(&LikeVideoId)
   if result.Error != nil {

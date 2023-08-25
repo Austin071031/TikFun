@@ -22,8 +22,8 @@ func FavoriteAction(c *gin.Context) {
 		c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "Verify jwt error"})
 		return
 	}
-	_, length, err := repository.NewUserDaoInstance().QueryUserByName(username)
-	if  length == 0{
+	users, err := repository.NewUserDaoInstance().QueryUserByName(username)
+	if  len(users) == 0{
 		c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "User doesn't exist"})
 		return
 	}

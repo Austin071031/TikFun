@@ -16,7 +16,7 @@ type Video struct {
 func ConvertVideoDBToJSON(dbVideos *[]repository.Video) ([]Video, error) {
 	var jsonVideos []Video
 	for _, dbVideo := range *dbVideos {
-		user, _, err := repository.NewUserDaoInstance().QueryUserByName(dbVideo.Name)
+		user, err := repository.NewUserDaoInstance().QueryUserByName(dbVideo.Name)
 		if err != nil {
 			return jsonVideos, err
 		}

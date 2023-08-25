@@ -5,6 +5,7 @@ import (
 	"sync"
 	// "time"
 	_ "encoding/base64"
+  "strconv"
 )
 
 func (User) TableName() string {
@@ -30,24 +31,33 @@ func NewUserDaoInstance() *UserDao {
 }
 
 
-//根据用户名字查找用户
-func (*UserDao) QueryUserByName(name string) ([]User, int64, error) {
-	var users []User
-	result := db.Where("name = ?", name).Find(&users)
+//根据用户名字查找用户登录信息
+func (*UserDao) QueryUserDataByName(name string) ([]LoginUserData, int64, error) {
+	var usersdata []LoginUserData
+	result := db.Where("name = ?", name).Find(&usersdata)
 	if result.Error != nil {
 		// util.Logger.Error("find user by id err:" + err.Error())
 		return nil, 0, result.Error
 	}
-	return users, result.RowsAffected, nil
+	return usersdata, result.RowsAffected, nil
+}
+
+//根据用户名字查找用户
+func (*UserDao) QueryUserByName(name string) ([]User, error) {
+	var users []User
+	result := db.Where("name = ?", name).Find(&users)
+	if result.Error != nil {
+		// util.Logger.Error("find user by id err:" + err.Error())
+		return nil, result.Error
+	}
+	return users, nil
 }
 
 //注册，新建一个用户
-func (*UserDao) CreateUser(username, password string) error {
-	Secretpassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+func (*UserDao) CreateUser(username string) (User, error) {
 	//encodedPassword := base64.StdEncoding.EncodeToString(Secretpassword)
-	user := &User{
+	user := User{
 		Name:          username,
-		Password:      string(Secretpassword),
     Signature:     "",
 		FollowCount:   0,
 		FollowerCount: 0,
@@ -55,23 +65,25 @@ func (*UserDao) CreateUser(username, password string) error {
     Avatar:        "",
     BackgroundImage:"",
     FavoriteCount: 0,
-    TotalFavorited:"",
+    TotalFavorited:"0",
     WorkCount:0,
     
 	}
 
-	if err := db.Create(user).Error; err != nil {
+	if err := db.Create(&user).Error; err != nil {
 		// util.Logger.Error("insert post err:" + err.Error())
-		return err
+		return User{}, err
 	}
-	return nil
+	return user, nil
 }
 
 
 //用户注册后，给他一个token
-func (*UserDao) NewUserToken(username, token string) error {
-	loginuserdata := &LoginUserData{
+func (*UserDao) NewUserToken(username, password, token string) error {
+	Secretpassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+  loginuserdata := &LoginUserData{
 		Username: username,
+    Password: string(Secretpassword),
 		Token:    token,
 	}
 	if err := db.Create(loginuserdata).Error; err != nil {
@@ -106,15 +118,62 @@ func (*UserDao) QueryUserByToken(token string) (*User, error) {
 	return &user, nil
 }
 
-func (*UserDao) QueryUserLast(username string) (*User, error) {
-	var user User
-	result := db.Last(&user)
-	if result.Error != nil {
-		// util.Logger.Error("find user by id err:" + err.Error())
-		return nil, result.Error
+
+func (*UserDao) UpdateUserFavoriteCount(username string, favoriteCount int) (error) {
+  updates := map[string]interface{}{
+		"FavoriteCount": favoriteCount,
 	}
-	return &user, nil
+	if err := db.Model(&User{}).Where("name = ?", username).Updates(updates).Error; err != nil {
+		// 处理更新错误
+		return err
+	}
+	return nil
 }
 
+func (*UserDao) UpdateUserTotalFavorited(authorname string, flag int) (error) {
+  var totfavorited []string
+  result := db.Model(&User{}).Where("name=?", authorname).Select("total_favorited").Find(&totfavorited)
+  if result.Error != nil {
+		// util.Logger.Error("find user by id err:" + err.Error())
+		return result.Error
+	}
 
+  var totf string
+  totf = totfavorited[0]
+  temp, err:= strconv.Atoi(totf)
+  if err != nil{
+    return err
+  }
+
+  updates := map[string]interface{}{
+    "TotalFavorited": "0",
+  }
+  if flag == 0{
+		updates["TotalFavorited"] = strconv.Itoa(temp - 1)
+  }else{
+    updates["TotalFavorited"] = strconv.Itoa(temp + 1)
+  }
+  
+  
+
+  if err := db.Model(&User{}).Where("name = ?", authorname).Updates(updates).Error; err != nil {
+		// 处理更新错误
+		return err
+	}
+	return nil
+}
+
+func (*UserDao) UpdateUserWorkCount(username string, workCount int) (error) {
+  updates := map[string]interface{}{
+		"WorkCount": workCount,
+	}
+	if err := db.Model(&User{}).Where("name = ?", username).Updates(updates).Error; err != nil {
+		// 处理更新错误
+		return err
+	}
+	return nil
+}
+
+  
+  
 
