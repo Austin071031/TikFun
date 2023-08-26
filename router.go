@@ -3,6 +3,7 @@ package main
 import (
   "github.com/RaymondCode/simple-demo/controller"
   "github.com/RaymondCode/simple-demo/service"
+  "github.com/RaymondCode/simple-demo/middleware/jwt"
   "github.com/gin-gonic/gin"
   "net/http"
 )
@@ -21,26 +22,41 @@ func initRouter(r *gin.Engine) {
   })
   
   apiRouter := r.Group("/douyin")
+  {
+    // basic apis
+    apiRouter.GET("/feed/",service.GetServerDomain, controller.Feed)
+    apiRouter.GET("/user/", controller.UserInfo)
+    apiRouter.POST("/user/register/", controller.Register)
+    apiRouter.POST("/user/login/", controller.Login)
 
-  // basic apis
-  apiRouter.GET("/feed/",service.GetServerDomain, controller.Feed)
-  apiRouter.GET("/user/", controller.UserInfo)
-  apiRouter.POST("/user/register/", controller.Register)
-  apiRouter.POST("/user/login/", controller.Login)
-  apiRouter.POST("/publish/action/", controller.Publish)
-  apiRouter.GET("/publish/list/", service.GetServerDomain, controller.PublishList)
+    publishRouter := apiRouter.Group("/publish")
+    {
+      publishRouter.Use(jwt.JWT_PUBLISH())
+      publishRouter.POST("/action/", controller.Publish)
+      publishRouter.GET("/list/", service.GetServerDomain, controller.PublishList)
+    }
+  
+    // extra apis - I
+    favoriteRouter := apiRouter.Group("/favorite")
+    {
+      favoriteRouter.Use(jwt.JWT())
+      favoriteRouter.POST("/action/", controller.FavoriteAction)
+      favoriteRouter.GET("/list/", controller.FavoriteList)
+    }
 
-  // extra apis - I
-  apiRouter.POST("/favorite/action/", controller.FavoriteAction)
-  apiRouter.GET("/favorite/list/", controller.FavoriteList)
-  apiRouter.POST("/comment/action/", controller.CommentAction)
-  apiRouter.GET("/comment/list/", controller.CommentList)
-
-  // extra apis - II
-  apiRouter.POST("/relation/action/", controller.RelationAction)
-  apiRouter.GET("/relation/follow/list/", controller.FollowList)
-  apiRouter.GET("/relation/follower/list/", controller.FollowerList)
-  apiRouter.GET("/relation/friend/list/", controller.FriendList)
-  apiRouter.GET("/message/chat/", controller.MessageChat)
-  apiRouter.POST("/message/action/", controller.MessageAction)
+    commentRouter := apiRouter.Group("/comment")
+    {
+      commentRouter.Use(jwt.JWT())
+      commentRouter.POST("/action/", controller.CommentAction)
+    }
+    apiRouter.GET("/comment/list/", controller.CommentList)
+  
+    // extra apis - II
+    apiRouter.POST("/relation/action/", controller.RelationAction)
+    apiRouter.GET("/relation/follow/list/", controller.FollowList)
+    apiRouter.GET("/relation/follower/list/", controller.FollowerList)
+    apiRouter.GET("/relation/friend/list/", controller.FriendList)
+    apiRouter.GET("/message/chat/", controller.MessageChat)
+    apiRouter.POST("/message/action/", controller.MessageAction) 
+  }
 }

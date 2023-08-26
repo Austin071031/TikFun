@@ -19,7 +19,13 @@ import (
 
 // 视频发布的处理函数 Publish check token then save upload file to public directory
 func Publish(c *gin.Context) {
-	token := c.PostForm("token")    //从请求参数中获取 token
+	// token := c.PostForm("token")    //从请求参数中获取 token
+  username, ok := c.Get("username")
+  if !ok{
+    username = ""
+  }
+  usernameStr, _ := username.(string)
+  
 	title := c.PostForm("title")    //从请求参数中获取 title
 	data, err:= c.FormFile("data") //获取上传的文件数据
   if err != nil{
@@ -31,16 +37,20 @@ func Publish(c *gin.Context) {
     })
   }
 
-	VideoListResponse, _ := service.Publish(token, title, data)
+	VideoListResponse, _ := service.Publish(usernameStr, title, data)
 	c.JSON(http.StatusOK, VideoListResponse)
 }
 
 // 获取发布视频列表 PublishList all users have same publish video list
 func PublishList(c *gin.Context) {
-
-	token := c.Query("token")
+	// token := c.Query("token")
+  username, ok := c.Get("username")
+  if !ok{
+    username = ""
+  }
+  usernameStr, _ := username.(string)
   
-	VideoListResponse, err := service.PublishList(token)
+	VideoListResponse, err := service.PublishList(usernameStr)
 	if err != nil {
 		c.JSON(http.StatusOK, VideoListResponse)
 	}

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"github.com/RaymondCode/simple-demo/repository"
 	"github.com/RaymondCode/simple-demo/service"
-	"github.com/RaymondCode/simple-demo/utils"
+	// "github.com/RaymondCode/simple-demo/utils"
 	"github.com/gin-gonic/gin"
 	// "gorm.io/gorm"
 	//"fmt"
@@ -13,23 +13,29 @@ import (
 
 // CommentAction no practical effect, just check if token is valid
 func CommentAction(c *gin.Context) {
-	token := c.Query("token")
-	decoded_token, err := utils.VerifyToken(token)
-	if err != nil{
-		c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "Verify jwt error"})
-		return
-	}
-	users, err := repository.NewUserDaoInstance().QueryUserByName(decoded_token)
-	if len(users) == 0{
-		c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "User doesn't exist"})
-		return
-	}
+	// token := c.Query("token")
+	// decoded_token, err := utils.VerifyToken(token)
+	// if err != nil{
+	// 	c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "Verify jwt error"})
+	// 	return
+	// }
+	// users, err := repository.NewUserDaoInstance().QueryUserByName(decoded_token)
+	// if len(users) == 0{
+	// 	c.JSON(http.StatusOK, repository.Response{StatusCode: 1, StatusMsg: "User doesn't exist"})
+	// 	return
+	// }
+  username, ok := c.Get("username")
+  if !ok{
+    username = ""
+  }
+  usernameStr, _ := username.(string)
+
   actionType := c.Query("action_type")
 	if actionType == "1" {
 		//插入
 		content_text := c.Query("comment_text")
 		video_id_text := c.Query("video_id")
-		commentActionResponse,err:=service.CreateComment(content_text,video_id_text,&users[0])
+		commentActionResponse,err:=service.CreateComment(content_text,video_id_text,usernameStr)
 		if err!=nil{
 			//新建评论发生错误，弹出提示窗口
 			c.JSON(http.StatusOK,commentActionResponse.Response)
@@ -41,7 +47,7 @@ func CommentAction(c *gin.Context) {
 		//删除
 		video_id_text := c.Query("video_id")
 		comment_id_text := c.Query("comment_id")
-		commentActionResponse,err:=service.DeleteComment(comment_id_text,video_id_text,&users[0])
+		commentActionResponse,err:=service.DeleteComment(comment_id_text,video_id_text,usernameStr)
 		if err!=nil{
       //删除评论发生错误，弹出提示窗口
 			c.JSON(http.StatusOK, commentActionResponse.Response)

@@ -123,7 +123,7 @@ func(*VideoDao) UpdateUserFavcount(username string)(string, int64, error){
 
 func (*VideoDao) QueryAuthorNameByVideoId(videoId int) ([]string, error) {
 	var authorname []string
-	result := db.Where("id = ?", videoId).Select("name").Find(&authorname)
+	result := db.Model(&Video{}).Where("id = ?", videoId).Select("name").Find(&authorname)
 	
 	if result.Error != nil{
     return authorname,result.Error

@@ -1,0 +1,11 @@
+
+lzl1
+lzl1
+lzl1
+lzl1
+lzl1
+lzl1
+lzl1
+lzl2
+lzl2
+unsupported data type: &[]: Table not set, please set it like: db.Model(&user) or db.Table("users")

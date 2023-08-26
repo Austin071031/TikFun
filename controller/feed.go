@@ -14,6 +14,7 @@ func Feed(c *gin.Context) {
   if token == ""{
     FeedResponse, _ := service.Feed("")
 	  c.JSON(http.StatusOK, FeedResponse)
+    return
   }
   
 	username, err := utils.VerifyToken(token)
@@ -23,5 +24,4 @@ func Feed(c *gin.Context) {
 	}
   FeedResponse, _ := service.Feed(username)
 	c.JSON(http.StatusOK, FeedResponse)
-	
 }

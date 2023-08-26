@@ -5,7 +5,7 @@ import (
 	"github.com/RaymondCode/simple-demo/utils"
 	//"github.com/u2takey/go-utils/json"
 
-	// "encoding/json"
+	"encoding/json"
 	// "strconv"
 	"time"
 )
@@ -40,6 +40,7 @@ func Feed(username string) (FeedResponse, error) {
 
     //已登陆用户更新视频的点赞状态
   if(username != ""){
+    _ = utils.WriteLog("feed.txt", "inner")
     likedVideosId, err := repository.NewFavouriteInstance().QueryFavoriteVideoIdbyUsername(username)
     if err != nil{
       _ = utils.WriteLog("feed_querylike.txt", err.Error())
@@ -61,9 +62,11 @@ func Feed(username string) (FeedResponse, error) {
     }
   }
   
-  // jsondata, _ := json.Marshal(videos)
-  // _ = utils.WriteLog("feed.txt", string(jsondata))
+  jsondata, _ := json.Marshal(videos)
+  _ = utils.WriteLog("feed.txt", string(jsondata))
 	VideoList, err = ConvertVideoDBToJSON(videos)
+  jsondata, _ = json.Marshal(VideoList)
+  _ = utils.WriteLog("feed.txt", string(jsondata))
   
 	if err != nil {
 		feedResponse := FeedResponse{

@@ -36,25 +36,25 @@ func GetServerDomain(c *gin.Context) {
 }
 
 // Publish check token then save upload file to public directory
-func Publish(token string, title string, data *multipart.FileHeader) (VideoListResponse, error) {
-  username, err := utils.VerifyToken(token)
-	if err != nil {
-    videoListResponse := VideoListResponse{
-			Response: repository.Response{
-				StatusCode: 1,
-				StatusMsg:  "token decoded error: " + err.Error()},
-		}
-		return videoListResponse, err
-	}
+func Publish(username string, title string, data *multipart.FileHeader) (VideoListResponse, error) {
+ //  username, err := utils.VerifyToken(token)
+	// if err != nil {
+ //    videoListResponse := VideoListResponse{
+	// 		Response: repository.Response{
+	// 			StatusCode: 1,
+	// 			StatusMsg:  "token decoded error: " + err.Error()},
+	// 	}
+	// 	return videoListResponse, err
+	// }
 	users, err := repository.NewUserDaoInstance().QueryUserByName(username)
-	if len(users) == 0 {
-		videoListResponse := VideoListResponse{
-			Response: repository.Response{
-				StatusCode: 1,
-				StatusMsg:  "User doesn't exist"},
-		}
-		return videoListResponse, err
-	}
+	// if len(users) == 0 {
+	// 	videoListResponse := VideoListResponse{
+	// 		Response: repository.Response{
+	// 			StatusCode: 1,
+	// 			StatusMsg:  "User doesn't exist"},
+	// 	}
+	// 	return videoListResponse, err
+	// }
 	//根据标题命名
 	filename := filepath.Base(title)
 	// 查询数据库视频当前主键
@@ -144,16 +144,16 @@ func Publish(token string, title string, data *multipart.FileHeader) (VideoListR
 }
 
 // PublishList all users have same publish video list
-func PublishList(token string) (VideoListResponse, error) {
-  username, err := utils.VerifyToken(token)
-	if err != nil {
-    videoListResponse := VideoListResponse{
-			Response: repository.Response{
-				StatusCode: 1,
-				StatusMsg:  "token decoded error: " + err.Error()},
-		}
-		return videoListResponse, err
-	}
+func PublishList(username string) (VideoListResponse, error) {
+ //  username, err := utils.VerifyToken(token)
+	// if err != nil {
+ //    videoListResponse := VideoListResponse{
+	// 		Response: repository.Response{
+	// 			StatusCode: 1,
+	// 			StatusMsg:  "token decoded error: " + err.Error()},
+	// 	}
+	// 	return videoListResponse, err
+	// }
 
 	// _, err = repository.NewUserDaoInstance().QueryUserByName(username)
 	// if err != nil {
@@ -164,7 +164,7 @@ func PublishList(token string) (VideoListResponse, error) {
 	// 	}
 	// 	return videoListResponse, err
 	// }
-	err = repository.NewVideoDaoInstance().UpdateVideoUrl(serverDomain)
+	err := repository.NewVideoDaoInstance().UpdateVideoUrl(serverDomain)
 	if err != nil {
 		videoListResponse := VideoListResponse{
 			Response: repository.Response{
