@@ -1,0 +1,8 @@
+
+saveFile: public/videos/1-123.mp4
+playurl: https://00490d275bcd77c4306677492630854b-app.1024paas.com/static/video/1-123.mp4
+coverurl: https://00490d275bcd77c4306677492630854b-app.1024paas.com/static/cover/1-123.png
+filename: 2-1.mp4
+saveFile: public/videos/2-1.mp4
+playurl: https://831952967cdf95ac9568c6fe352fd22a-app.1024paas.com/static/video/2-1.mp4
+coverurl: https://831952967cdf95ac9568c6fe352fd22a-app.1024paas.com/static/cover/2-1.png

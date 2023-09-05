@@ -19,9 +19,6 @@ type Like struct {
 	Time     time.Time `gorm:"column:create_time"`
 }
 
-
-
-
 type User struct {
 	Id              int64  `gorm:"column:id" json:"id"`
 	Name            string `gorm:"column:name" json:"name"`

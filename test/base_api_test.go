@@ -6,11 +6,14 @@ import (
 	"net/http"
 	"testing"
 	"time"
+  "os"
 )
 
 func TestFeed(t *testing.T) {
-	e := newExpect(t)
+  os.Setenv("paas_url", "https://ea969421a78b7991589d721fffac61a1-app.1024paas.com")
 
+  
+	e := newExpect(t)
 	feedResp := e.GET("/douyin/feed/").Expect().Status(http.StatusOK).JSON().Object()
 	feedResp.Value("status_code").Number().Equal(0)
 	feedResp.Value("video_list").Array().Length().Gt(0)

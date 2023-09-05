@@ -4,11 +4,16 @@ import (
   "github.com/RaymondCode/simple-demo/controller"
   "github.com/RaymondCode/simple-demo/service"
   "github.com/RaymondCode/simple-demo/middleware/jwt"
+  "github.com/DeanThompson/ginpprof"
   "github.com/gin-gonic/gin"
   "net/http"
 )
 
+
+
 func initRouter(r *gin.Engine) {
+  pprofGroup := r.Group("/debug/pprof")
+  ginpprof.WrapGroup(pprofGroup)
   // public directory is used to serve static resources
  	r.Static("/static/video", "./public/videos")
 	r.Static("/static/cover", "./public/covers")
@@ -56,7 +61,7 @@ func initRouter(r *gin.Engine) {
     apiRouter.GET("/relation/follow/list/", controller.FollowList)
     apiRouter.GET("/relation/follower/list/", controller.FollowerList)
     apiRouter.GET("/relation/friend/list/", controller.FriendList)
-    apiRouter.GET("/message/chat/", controller.MessageChat)
-    apiRouter.POST("/message/action/", controller.MessageAction) 
+    // apiRouter.GET("/message/chat/", controller.MessageChat)
+    // apiRouter.POST("/message/action/", controller.MessageAction) 
   }
 }

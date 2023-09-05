@@ -73,7 +73,5 @@ CREATE TABLE `comments`
     `content`           varchar(128)        NOT NULL DEFAULT '' COMMENT '内容',
     `create_date`      	varchar(128)        NOT NULL DEFAULT '' COMMENT '创建时间',
     PRIMARY KEY (`id`)
-		-- FOREIGN KEY (`user_id`)   REFERENCES user(`id`)
-    -- FOREIGN KEY (`video_id`)  REFERENCES videos(`id`) 
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='评论表';

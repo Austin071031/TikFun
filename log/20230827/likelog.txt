@@ -1,0 +1,5 @@
+
+filename: 2-Qingdao.mp4
+saveFile: public/videos/2-Qingdao.mp4
+playurl: https://4d6a0e48e56d584a4252ebf4d4dc4f2d-app.1024paas.com/static/video/2-Qingdao.mp4
+coverurl: https://4d6a0e48e56d584a4252ebf4d4dc4f2d-app.1024paas.com/static/cover/2-Qingdao.png

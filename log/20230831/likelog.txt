@@ -1,0 +1,4 @@
+
+saveFile: public/videos/6-testforfav.mp4
+playurl: https://b26fbabef69a52cf7260aef71d0bf92d-app.1024paas.com/static/video/6-testforfav.mp4
+coverurl: https://b26fbabef69a52cf7260aef71d0bf92d-app.1024paas.com/static/cover/6-testforfav.png

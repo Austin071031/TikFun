@@ -2,7 +2,7 @@ package main
 
 import (
   "github.com/RaymondCode/simple-demo/repository"
-	"github.com/RaymondCode/simple-demo/service"
+	// "github.com/RaymondCode/simple-demo/service"
   //"github.com/RaymondCode/simple-demo/dao"
 	"github.com/gin-gonic/gin"
   "os"
@@ -12,7 +12,7 @@ func main() {
   if err := repository.Init(); err != nil {
 		os.Exit(-1)
 	}
-  go service.RunMessageServer()
+  // go service.RunMessageServer()
 
   r := gin.Default()
 
